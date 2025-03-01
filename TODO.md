@@ -6,7 +6,9 @@
 [X] - Add unit tests - for desktop_app
 [X] - Add concept of 'ride' in thundercloud 
 [X] - Modify desktop_app to support ride concept
-[ ] - PyQt6 frontend
+[ ] - PyQt6 frontend WIP
+      * File selection
+      * ride_id field
 [ ] - Add unit tests for thundercloud
 [ ] - Logging 
 [ ] - Add config file to desktop_app
