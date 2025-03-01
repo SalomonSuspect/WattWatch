@@ -3,6 +3,7 @@ Ebike Telemetry Tool
 
 ## Overview
 WattWatch is a ebike telemetry tool to capture, analyze and visualize ebike statistics. The complete tool includes two sub applications
+![alt text](image.png)
 ### desktop_app
 desktop_app is written in python using PyQT6. The desktop application is responsible for capturing data from the ebike and normalizing the data to send to the backend server called thundercloud
 
