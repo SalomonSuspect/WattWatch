@@ -1,8 +1,9 @@
 import csv
+import pathlib
 from typing import Generator
 from data_structure import RideData
 
-def parse_csv(csv_file_path: str) -> Generator[RideData, None, None]:
+def parse_csv(csv_file_path: pathlib.Path) -> Generator[RideData, None, None]:
     with open(csv_file_path, 'r') as f:
         reader = csv.reader(f)
         for row in reader:
