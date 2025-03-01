@@ -2,7 +2,7 @@
 name = "thundercloud"
 version = "0.1.0"
 description = "Cloud backend for WattWatch ebike telemetry tool"
-readme = "README.md"
+readme = "../README.md"
 requires-python = ">=3.12"
 dependencies = [
     "fastapi[standard]>=0.115.10",
