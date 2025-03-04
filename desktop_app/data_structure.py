@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Any
 
+
 @dataclass
 class RideData:
     timestamp: int
@@ -15,5 +16,5 @@ class RideData:
             "long": self.long,
             "lat": self.lat,
             "speed": self.speed,
-            "soc": self.soc
+            "soc": self.soc,
         }
