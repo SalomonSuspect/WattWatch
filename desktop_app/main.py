@@ -65,7 +65,8 @@ class MainApp(QMainWindow):
         self.file_path = QLineEdit(self)
         self.file_path.textChanged.connect(self.enable_process_data_button)
 
-        self.file_path.setText("No file selected yet")
+        self.file_path_default_text = "No file selected yet"
+        self.file_path.setText(self.file_path_default_text)
         self.file_selection_layout.addWidget(self.file_path)
 
         # Add file selection button
@@ -84,7 +85,8 @@ class MainApp(QMainWindow):
 
     def enable_process_data_button(self):
         self.process_data_button.setEnabled(
-            len(self.file_path.text()) > 0 and len(self.ride_id_box.text()) > 0
+            self.file_path.text() != self.file_path_default_text
+            and len(self.ride_id_box.text()) > 0
         )
 
     def on_process_data_click(self):
@@ -115,7 +117,7 @@ class MainApp(QMainWindow):
         success_message.setStandardButtons(QMessageBox.Ok)
         success_message.exec_()
         self.ride_id_box.clear()
-        self.file_path.clear()
+        self.file_path.setText(self.file_path_default_text)
 
 
 def main():

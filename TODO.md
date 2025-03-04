@@ -11,15 +11,17 @@
       * File selection
       * ride_id field 
      To do
-     [ ] - hook in post of data
-     [ ] - hook in exception popup
-     [ ] - hook in success popup
+     [X] - hook in post of data
+     [X] - hook in exception popup
+     [X] - hook in success popup
 [ ] - Add unit tests for thundercloud
+[ ] - Add readback of data from thundercloud
 [ ] - Logging 
-[ ] - Add config file to desktop_app
 [ ] - More details in README - how to execute...
 [ ] - database hookup in thundercloud
 [ ] - Add guard against duplicate data sent to thundercloud - via timestamp
+[ ] - Add config file to desktop_app
+
 
 ## Stretch
 [ ] - Add CLI tool for desktop_app to ingest easier
