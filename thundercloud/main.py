@@ -1,12 +1,7 @@
-from pydantic import BaseModel
 from fastapi import FastAPI, HTTPException
 
-class BikeRecord(BaseModel):
-    timestamp: int
-    long: int
-    lat: int
-    speed: float
-    soc: int
+from data_structures import BikeRecord, RideSummary
+from helper_functions import find_average_speed
 
 bike_records: dict[int, list[BikeRecord]] = {}
 app = FastAPI()
