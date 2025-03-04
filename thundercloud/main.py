@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 
 from data_structures import BikeRecord, RideSummary
-from helper_functions import find_average_speed
+from helper_functions import get_average_speed, get_duration
 
 bike_records: dict[int, list[BikeRecord]] = {}
 app = FastAPI()
@@ -32,9 +32,9 @@ def get_bike_record_summary(ride_id: int):
     if not ride_data:
         raise HTTPException(status_code=404, detail=f"bike record {ride_id} not found")
     
-    summary = RideSummary(start_time=ride_data[0].timestamp, 
-                          end_time=ride_data[-1].timestamp, 
-                          avg_speed=find_average_speed(ride_data), 
+    summary = RideSummary(ride_id=ride_id, 
+                          duration_m=get_duration(ride_data), 
+                          avg_speed_mph=get_average_speed(ride_data), 
                           ending_soc=ride_data[-1].soc)
     return summary
 

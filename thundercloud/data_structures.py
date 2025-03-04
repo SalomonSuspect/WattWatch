@@ -8,7 +8,7 @@ class BikeRecord(BaseModel):
     soc: int
 
 class RideSummary(BaseModel):
-    start_time: int
-    end_time: int
-    avg_speed: float
+    ride_id: int
+    duration_m: float
+    avg_speed_mph: float
     ending_soc: int
