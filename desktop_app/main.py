@@ -14,6 +14,7 @@ from PySide6.QtWidgets import (
     QMessageBox,
     QLabel,
 )
+from PySide6.QtCore import Qt
 from PySide6.QtGui import QIntValidator
 from helper_threads import FileIngestionWorker, PostDataToTC
 
@@ -40,11 +41,17 @@ class MainApp(QMainWindow):
         self.setCentralWidget(self.central_widget)
         self.layout = QVBoxLayout(self.central_widget)
 
-        # Add button to ingest
-        self.process_data_button = QPushButton("Process Data")
-        self.process_data_button.clicked.connect(self.on_process_data_click)
-        self.layout.addWidget(self.process_data_button)
-        self.process_data_button.setEnabled(False)
+        # Add a label to display the application's banner
+        banner = QLabel("WattWatch Desktop Application")
+        banner.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        banner.setStyleSheet("""
+            background-color: #FF0000;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            padding: 10px;
+        """)
+        self.layout.addWidget(banner)
 
         # Ride ID Input widget
         self.ride_id_layout = QHBoxLayout(self.central_widget)
@@ -73,6 +80,12 @@ class MainApp(QMainWindow):
         self.open_file_button = QPushButton("Select ride CSV")
         self.open_file_button.clicked.connect(self.open_file_dialog)
         self.file_selection_layout.addWidget(self.open_file_button)
+
+        # Add button to ingest
+        self.process_data_button = QPushButton("Publish Data to Thundercloud")
+        self.process_data_button.clicked.connect(self.on_process_data_click)
+        self.layout.addWidget(self.process_data_button)
+        self.process_data_button.setEnabled(False)
 
     def open_file_dialog(self):
         # Open a file dialog and get the selected file path
