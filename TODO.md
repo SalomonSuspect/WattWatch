@@ -14,8 +14,8 @@
      [X] - hook in post of data
      [X] - hook in exception popup
      [X] - hook in success popup
-[ ] - Add unit tests for thundercloud
-[ ] - Add readback of data from thundercloud
+[ ] - Add endpoint for ride data summary in TC
+[ ] - Add retrieval in desktop app
 [ ] - Logging 
 [ ] - More details in README - how to execute...
 [ ] - database hookup in thundercloud
