@@ -16,8 +16,8 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIntValidator
-from helper_threads import FileIngestionWorker, PostDataToTC
-
+from helper_threads import FileIngestionWorker, PostDataToTC, RideSummaryWorker
+from data_structure import RideSummary
 
 class MainApp(QMainWindow):
     RIDE_FILES_DIR = pathlib.Path(__file__).parent / "ride_files"
@@ -25,16 +25,22 @@ class MainApp(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        # Setup file ingestion worker
+        # Setup file ingestion Runner
         self.file_ingestion_worker = FileIngestionWorker()
         self.file_ingestion_worker.result_signal.connect(self.on_parse_data)
         self.file_ingestion_worker.exception_signal.connect(self.error_popup)
 
-        # Setup PostDataToTC runner
+        # Setup PostDataToTC Runner
         self.post_data_to_thundercloud = PostDataToTC()
         self.post_data_to_thundercloud.result_signal.connect(self.on_post_data_success)
         self.post_data_to_thundercloud.exception_signal.connect(self.error_popup)
 
+        # Get Ride Summary Runner
+        self.ride_summary_runner = RideSummaryWorker()
+        self.ride_summary_runner.result_signal.connect(self.on_get_ride_summary_success)
+        self.ride_summary_runner.exception_signal.connect(self.error_popup)
+
+        # Setup UI
         self.setWindowTitle("WATTWatch Desktop Application")
         self.setGeometry(200, 100, 500, 150)
         self.central_widget = QWidget()
@@ -59,18 +65,20 @@ class MainApp(QMainWindow):
         int_validator = QIntValidator()
         self.ride_id_box = QLineEdit(self)
         self.ride_id_box.setValidator(int_validator)
-        self.ride_id_box.textChanged.connect(self.enable_process_data_button)
 
         self.layout.addLayout(self.ride_id_layout)
         self.ride_id_layout.addWidget(self.ride_id_label)
         self.ride_id_layout.addWidget(self.ride_id_box)
+        
+        self.display_ride_info_box = QPushButton("Display Ride Info")
+        self.display_ride_info_box.setEnabled(False)
+        self.ride_id_layout.addWidget(self.display_ride_info_box)
 
         # File selection widget
         self.file_selection_layout = QHBoxLayout(self.central_widget)
         self.layout.addLayout(self.file_selection_layout)
         # Add a label to display the selected file path
         self.file_path = QLineEdit(self)
-        self.file_path.textChanged.connect(self.enable_process_data_button)
 
         self.file_path_default_text = "No file selected yet"
         self.file_path.setText(self.file_path_default_text)
@@ -83,9 +91,15 @@ class MainApp(QMainWindow):
 
         # Add button to ingest
         self.process_data_button = QPushButton("Publish Data to Thundercloud")
-        self.process_data_button.clicked.connect(self.on_process_data_click)
         self.layout.addWidget(self.process_data_button)
         self.process_data_button.setEnabled(False)
+
+        # Connect GUI signals/slots last
+        self.process_data_button.clicked.connect(self.on_process_data_click)
+        self.file_path.textChanged.connect(self.enable_buttons)
+        self.ride_id_box.textChanged.connect(self.enable_buttons)
+        self.display_ride_info_box.clicked.connect(self.on_get_ride_summary_click)
+
 
     def open_file_dialog(self):
         # Open a file dialog and get the selected file path
@@ -96,11 +110,12 @@ class MainApp(QMainWindow):
             self.file_path.setText(file_path)
             self.process_data_button.setEnabled(True)
 
-    def enable_process_data_button(self):
+    def enable_buttons(self):
         self.process_data_button.setEnabled(
             self.file_path.text() != self.file_path_default_text
             and len(self.ride_id_box.text()) > 0
         )
+        self.display_ride_info_box.setEnabled(len(self.ride_id_box.text()) > 0)
 
     def on_process_data_click(self):
         # Start the file ingestion worker with the selected file path
@@ -113,7 +128,7 @@ class MainApp(QMainWindow):
         error_message.setText(message)
         error_message.setStandardButtons(QMessageBox.Ok)
         error_message.setIcon(QMessageBox.Critical)
-        error_message.exec_()
+        error_message.exec()
 
     def on_parse_data(self, data: list):
         print("Parsed data now posting to thundercloud")
@@ -128,9 +143,23 @@ class MainApp(QMainWindow):
             f"Successfully sent {ride_data_length} records for ride {ride_id} to Thundercloud."
         )
         success_message.setStandardButtons(QMessageBox.Ok)
-        success_message.exec_()
+        success_message.exec()
         self.ride_id_box.clear()
         self.file_path.setText(self.file_path_default_text)
+
+    def on_get_ride_summary_click(self):
+        self.ride_summary_runner.ride_id = int(self.ride_id_box.text())
+        self.ride_summary_runner.start()
+
+    def on_get_ride_summary_success(self, summary: RideSummary):
+        summary_message = QMessageBox(self)
+        summary_message.setWindowTitle("Ride Summary")
+        summary_message.setText(f"Ride Summary for Ride ID: {summary.ride_id}\n"
+                              f"Total Duration: {summary.duration_m: 0.2f} minutes\n"
+                              f"Average Speed: {summary.avg_speed_mph} mph")
+        summary_message.setStandardButtons(QMessageBox.Ok)
+        summary_message.exec()
+
 
 
 def main():

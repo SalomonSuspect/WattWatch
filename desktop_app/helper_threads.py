@@ -5,8 +5,7 @@ import pathlib
 from PySide6.QtCore import QThread, Signal
 
 from file_parser import parse_csv
-from data_structure import RideData
-from thundercloud import post_ride_data_to_api  # type: ignore
+from thundercloud import post_ride_data_to_api, get_ride_summary  # type: ignore
 
 
 class FileIngestionWorker(QThread):
@@ -52,3 +51,19 @@ class PostDataToTC(QThread):
             self.exception_signal.emit(f"Error sending data to Thundercloud: {e}")
         else:
             self.result_signal.emit(self.ride_id, len(self.ride_data))
+
+
+class RideSummaryWorker(QThread):
+    result_signal = Signal(object)
+    exception_signal = Signal(str)
+
+    def __init__(self):
+        super().__init__()
+        self.ride_id: int | None = None
+    
+    def run(self):
+        if self.ride_id is None:
+            self.exception_signal.emit("No ride ID set before starting the worker")
+            return
+        summary = get_ride_summary(self.ride_id)
+        self.result_signal.emit(summary)
