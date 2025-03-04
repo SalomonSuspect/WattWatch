@@ -14,15 +14,15 @@
      [X] - hook in post of data
      [X] - hook in exception popup
      [X] - hook in success popup
-[ ] - Add endpoint for ride data summary in TC
-[ ] - Add retrieval in desktop app
-[ ] - Logging 
+[X] - Add endpoint for ride data summary in TC
+[X] - Add retrieval in desktop app
 [ ] - More details in README - how to execute...
 [ ] - database hookup in thundercloud
 [ ] - Add guard against duplicate data sent to thundercloud - via timestamp
 [ ] - Add config file to desktop_app
+[ ] - Logging 
 
 
 ## Stretch
 [ ] - Add CLI tool for desktop_app to ingest easier
-[ ] - 
+[ ] - Database for backend
