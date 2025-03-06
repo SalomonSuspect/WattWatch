@@ -27,7 +27,6 @@ class FileIngestionWorker(QThread):
             self.exception_signal.emit(f"File {self.file_path} does not exist")
             return
         data_from_file = list(parse_csv(self.file_path))
-        # print(f"{data_from_file=}/{self.file_path}")
         self.result_signal.emit(data_from_file)
 
 

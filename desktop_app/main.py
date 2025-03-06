@@ -110,7 +110,6 @@ class MainApp(QMainWindow):
         )
         if file_path:
             self.file_path.setText(file_path)
-            self.process_data_button.setEnabled(True)
 
     def enable_buttons(self):
         self.process_data_button.setEnabled(
