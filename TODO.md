@@ -6,7 +6,7 @@
 [X] - Add unit tests - for desktop_app
 [X] - Add concept of 'ride' in thundercloud 
 [X] - Modify desktop_app to support ride concept
-[X] - PyQt6 frontend MVP
+[X] - PySide6 frontend MVP
      Layout
       * File selection
       * ride_id field 
@@ -16,9 +16,11 @@
      [X] - hook in success popup
 [X] - Add endpoint for ride data summary in TC
 [X] - Add retrieval in desktop app
+[X] - Add CLI tool for desktop_app to ingest easier
+[ ] - Database for backend
 [ ] - Add guard against duplicate data sent to thundercloud - via timestamp
 [ ] - Add config file to desktop_app
 [ ] - Logging 
-[ ] - Add CLI tool for desktop_app to ingest easier
-[ ] - Database for backend
 [ ] - Add more ride files - specifically large ones for performance load testing
+[ ] - Setup ability to remove rides
+[ ] - Setup ability to view all available rides.
