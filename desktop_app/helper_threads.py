@@ -3,7 +3,7 @@
 import pathlib
 
 from PySide6.QtCore import QThread, Signal
-
+from requests import exceptions
 from file_parser import parse_csv
 from thundercloud import post_ride_data_to_api, get_ride_summary  # type: ignore
 
@@ -62,8 +62,16 @@ class RideSummaryWorker(QThread):
         self.ride_id: int | None = None
     
     def run(self):
-        if self.ride_id is None:
-            self.exception_signal.emit("No ride ID set before starting the worker")
-            return
-        summary = get_ride_summary(self.ride_id)
-        self.result_signal.emit(summary)
+        try:
+            if self.ride_id is None:
+                self.exception_signal.emit("No ride ID set before starting the worker")
+                return
+            summary = get_ride_summary(self.ride_id)
+            self.result_signal.emit(summary)
+        except exceptions.HTTPError as e:
+            if e.response.status_code == 404:
+                self.exception_signal.emit(f"Ride {self.ride_id} not found")
+            else:
+                self.exception_signal.emit(f"Error fetching ride data: {e}")
+        except Exception as e:
+            self.exception_signal.emit(f"Error fetching ride summary: {e}")
