@@ -30,7 +30,7 @@ def get_bike_records(ride_id: int):
 
 @app.get("/bike_record/summary/{ride_id}")
 def get_bike_record_summary(ride_id: int):
-    print(f"Generating ride data  summary ")
+    print(f"Generating ride data summary ")
     ride_data = bike_records.get(ride_id)
     if not ride_data:
         raise HTTPException(status_code=404, detail=f"bike record {ride_id} not found")

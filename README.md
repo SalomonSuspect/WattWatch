@@ -4,15 +4,15 @@ WattWatch is a ebike telemetry tool to capture, analyze and visualize ebike stat
 ![alt text](WattWatch.png)
 
 ### desktop_app
-desktop_app is written in python using PySide6. The desktop application is responsible for capturing data from the ebike and normalizing the data to send to the backend server called thundercloud. 
+desktop_app is written in Python using PySide6. The desktop application is responsible for capturing data from the ebike and normalizing the data to send to the backend server called thundercloud. 
 
 #### Data simulation
-For the time being ride data is being simulated by providing csv files of ride data in the format timestamp, long, lat, speed, batery state of charge.
+For the time being ride data is being simulated by providing csv files of ride data in the format `timestamp, long, lat, speed, battery state of charge`. Some sample ride data can be found in the `ride_files` folder. 
 This data is assumed to be captured from the ebike and managed as such.
 
 
 ### thundercloud
-thundercloud is a backend server written using FastAPI to deliver a CRUD interface for storage and analysis. Currently the data storage is run time only. 
+thundercloud is a backend server written using FastAPI to deliver a CRUD interface for storage and analysis. Currently the data storage is volitale only. 
 
 ## Getting Started
 ### Dependencies
@@ -26,7 +26,7 @@ To start the desktop_app, navigate to the deskotp_app directory then run the mai
 
 ```
 $ cd desktop_app
-$ uv run desktop_app/main.py`
+$ uv run desktop_app/main.py
 ```
 
 This will install the correct version of python and all dependencies needed and start the desktop application
@@ -35,11 +35,11 @@ This will install the correct version of python and all dependencies needed and 
 To start the thundercloud service, navigate to the thundecloud folder and then start the thundercloud server via uv:
 ```
 $ cd thundercloud
-$ uv run uvicorn main:app --reload
+$ uv run uvicorn main:app
 ```
 
-### Tests
-Unit tests are in the `test folder`. To execute the tests have to be executed from the top level of each application. Currently there are only tests for the desktop_app.
+## Tests
+Unit tests are in the `test` folde for each application. Tests have to be executed from the top level of each application. Currently there are only tests for the desktop_app.
 
 For example to run the tests against the `desktop_app`:
 ```
