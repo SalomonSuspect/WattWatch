@@ -60,7 +60,7 @@ class RideSummaryWorker(QThread):
     def __init__(self):
         super().__init__()
         self.ride_id: int | None = None
-    
+
     def run(self):
         try:
             if self.ride_id is None:

@@ -19,6 +19,7 @@ from PySide6.QtGui import QIntValidator
 from helper_threads import FileIngestionWorker, PostDataToTC, RideSummaryWorker
 from data_structure import RideSummary
 
+
 class MainApp(QMainWindow):
     RIDE_FILES_DIR = pathlib.Path(__file__).parent / "ride_files"
 
@@ -50,13 +51,15 @@ class MainApp(QMainWindow):
         # Add a label to display the application's banner
         banner = QLabel("WattWatch Desktop Application")
         banner.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        banner.setStyleSheet("""
+        banner.setStyleSheet(
+            """
             background-color: #FF0000;
             color: white;
             font-size: 24px;
             font-weight: bold;
             padding: 10px;
-        """)
+        """
+        )
         self.layout.addWidget(banner)
 
         # Ride ID Input widget
@@ -69,7 +72,7 @@ class MainApp(QMainWindow):
         self.layout.addLayout(self.ride_id_layout)
         self.ride_id_layout.addWidget(self.ride_id_label)
         self.ride_id_layout.addWidget(self.ride_id_box)
-        
+
         self.display_ride_info_box = QPushButton("Display Ride Info")
         self.display_ride_info_box.setEnabled(False)
         self.ride_id_layout.addWidget(self.display_ride_info_box)
@@ -99,7 +102,6 @@ class MainApp(QMainWindow):
         self.file_path.textChanged.connect(self.enable_buttons)
         self.ride_id_box.textChanged.connect(self.enable_buttons)
         self.display_ride_info_box.clicked.connect(self.on_get_ride_summary_click)
-
 
     def open_file_dialog(self):
         # Open a file dialog and get the selected file path
@@ -154,12 +156,13 @@ class MainApp(QMainWindow):
     def on_get_ride_summary_success(self, summary: RideSummary):
         summary_message = QMessageBox(self)
         summary_message.setWindowTitle("Ride Summary")
-        summary_message.setText(f"Ride Summary for Ride ID: {summary.ride_id}\n"
-                              f"Total Duration: {summary.duration_m: 0.2f} minutes\n"
-                              f"Average Speed: {summary.avg_speed_mph} mph")
+        summary_message.setText(
+            f"Ride Summary for Ride ID: {summary.ride_id}\n"
+            f"Total Duration: {summary.duration_m: 0.2f} minutes\n"
+            f"Average Speed: {summary.avg_speed_mph} mph"
+        )
         summary_message.setStandardButtons(QMessageBox.Ok)
         summary_message.exec()
-
 
 
 def main():

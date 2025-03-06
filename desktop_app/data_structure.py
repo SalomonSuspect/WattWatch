@@ -19,6 +19,7 @@ class RideData:
             "soc": self.soc,
         }
 
+
 @dataclass
 class RideSummary:
     ride_id: int
