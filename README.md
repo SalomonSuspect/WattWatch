@@ -26,7 +26,7 @@ To start the desktop_app, navigate to the deskotp_app directory then run the mai
 
 ```
 $ cd desktop_app
-$ uv run desktop_app/main.py
+$ uv run main.py
 ```
 
 This will install the correct version of python and all dependencies needed and start the desktop application
