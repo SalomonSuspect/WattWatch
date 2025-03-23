@@ -21,7 +21,13 @@ WattWatch utilizes python3.12 and uv for package management. Make sure that uv i
 https://github.com/astral-sh/uv
 
 
-### Starting desktop_app
+### Starting desktop_app [Ubuntu]
+First install dependencies for Qt:
+```
+sudo apt update
+sudo apt install libxcb-cursor0 libxcb-xinerama0 libxcb-xinput0 libxkbcommon-x11-0 qt6-base-dev
+```
+
 To start the desktop_app, navigate to the deskotp_app directory then run the main.py via uv:
 
 ```
